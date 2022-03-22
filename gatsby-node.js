@@ -1,4 +1,4 @@
-exports.onPreBuild = ({ actions }) => {
+exports.createPages = async ({ actions }) => {
   const { createRedirect } = actions
 
   createRedirect({
