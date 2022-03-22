@@ -1,17 +1,17 @@
 import React from "react"
-import { storyblokEditable } from "@storyblok/react";
-import { useStaticQuery, graphql } from "gatsby"
+import { storyblokEditable } from "@storyblok/react"
+import { useStaticQuery, graphql, Link } from "gatsby"
 
 // import rewriteSlug from '../lib/rewriteSlug'
 
 const PostsList = ({ blok }) => {
-  let filteredPosts = [];
-  const isResolved = typeof blok.posts[0] !== 'string'
+  let filteredPosts = []
+  const isResolved = typeof blok.posts[0] !== "string"
 
   const data = useStaticQuery(graphql`
     {
       posts: allStoryblokEntry(
-        filter: {field_component: {eq: "blogpost"}}
+        filter: { field_component: { eq: "blogpost" } }
       ) {
         edges {
           node {
@@ -28,12 +28,14 @@ const PostsList = ({ blok }) => {
     }
   `)
   if (!isResolved) {
-    filteredPosts = data.posts.edges
-      .filter(p => blok.posts.indexOf(p.node.uuid) > -1);
+    filteredPosts = data.posts.edges.filter(
+      p => blok.posts.indexOf(p.node.uuid) > -1
+    )
 
     filteredPosts = filteredPosts.map((p, i) => {
       const content = p.node.content
-      const newContent = typeof content === 'string' ? JSON.parse(content) : content
+      const newContent =
+        typeof content === "string" ? JSON.parse(content) : content
       p.node.content = newContent
       return p.node
     })
@@ -59,21 +61,21 @@ const PostsList = ({ blok }) => {
                   </span>
                 </div>
                 <div className="mt-2">
-                  <a
+                  <Link
                     className="text-2xl text-gray-700 font-bold hover:text-gray-600"
-                    href={`/${post.full_slug}`}
+                    to={`/${post.full_slug}`}
                   >
                     {post.content.title}
-                  </a>
+                  </Link>
                   <p className="mt-2 text-gray-600">{post.content.intro}</p>
                 </div>
                 <div className="flex justify-between items-center mt-4">
-                  <a
+                  <Link
                     className="text-blue-600 hover:underline"
-                    href={`/${post.full_slug}`}
+                    to={`/${post.full_slug}`}
                   >
                     Read more
-                  </a>
+                  </Link>
                 </div>
               </li>
             )

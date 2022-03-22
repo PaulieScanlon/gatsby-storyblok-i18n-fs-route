@@ -1,9 +1,9 @@
-exports.onPreBuild = async ({ actions }) => {
+exports.createPages = async ({ actions }) => {
   const { createRedirect } = actions
 
   createRedirect({
     fromPath: `/en/blog/*`,
     toPath: `/blog/*`,
-    force: true
-  });
-};
+    force: true,
+  })
+}
